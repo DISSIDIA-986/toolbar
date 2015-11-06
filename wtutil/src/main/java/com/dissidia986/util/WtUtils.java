@@ -19,6 +19,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class WtUtils {
@@ -121,12 +122,15 @@ public class WtUtils {
 		return mapper.get();
 	}
 	
-	public String writeObjectAsString(Object obj) throws JsonProcessingException{
+	public static String writeObjectAsString(Object obj) throws JsonProcessingException{
 		return getMapper().writeValueAsString(obj);
 	}
 	
-	public <T> T readValue(String content, Class<T> valueType) throws JsonParseException, JsonMappingException, IOException{
+	public static <T> T readValue(String content, Class<T> valueType) throws JsonParseException, JsonMappingException, IOException{
 		return getMapper().readValue(content, valueType);
 	}
 	
+	public static JsonNode readTree(String json) throws JsonProcessingException, IOException{
+		return getMapper().readTree(json);
+	}
 }
