@@ -494,4 +494,8 @@ public class DateUtil {
 		return new StringBuilder().append(cal.get(Calendar.YEAR)).append(cal.get(Calendar.MONTH) / 3 + 1).toString();
 	}
 	//------------------------------------------------------------------------ Private method end
+	
+	public static SimpleDateFormat getNorm_datetime_format() {
+		return NORM_DATETIME_FORMAT.get();
+	}
 }
