@@ -1,4 +1,8 @@
 // Builder Pattern - Pages 14-15
+/**
+ * 遇到多个构造器参数时考虑使用构建器
+ * 重叠构造器模式可行，但是当有很多参数的时候，客户端代码会很难编写。
+ */
 package org.effectivejava.examples.chapter02.item02.builder;
 
 public class NutritionFacts {
