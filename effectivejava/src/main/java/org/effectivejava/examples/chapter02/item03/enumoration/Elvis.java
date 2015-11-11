@@ -1,4 +1,7 @@
 // Enum singleton - the preferred approach - page 18
+/**
+ * 用私有构造器或枚举强化Singleton
+ */
 package org.effectivejava.examples.chapter02.item03.enumoration;
 
 public enum Elvis {
