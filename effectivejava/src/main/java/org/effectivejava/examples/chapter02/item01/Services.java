@@ -12,6 +12,9 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  */
 public class Services {
+	/**
+	 * 考虑用静态工厂方法代替构造器
+	 */
 	private Services() {
 	} // Prevents instantiation (Item 4)
 
