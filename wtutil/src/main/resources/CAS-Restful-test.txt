@@ -31,7 +31,7 @@ ST-1-19izksx3i2MFU54dydPv-cas
 获取认证主体及相关属性
 http://localhost:8080/cas-server/serviceValidate
 POST：
-service=http://localhost:8080/cas-client/&ticket=ST-2-OZqsSbMZcuFqLz1f2h4Q-cas
+format=JSON&service=http://localhost:8080/cas-client/&ticket=ST-2-OZqsSbMZcuFqLz1f2h4Q-cas
 Server Response:
 HTTP/1.1 200 OK
 Server: Apache-Coyote/1.1
