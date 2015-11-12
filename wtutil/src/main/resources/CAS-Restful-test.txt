@@ -1,0 +1,60 @@
+登录请求:
+http://localhost:8080/cas-server/v1/tickets
+POST:
+username=t1&password=password&additionalParam1=paramvalue
+Server Response:
+HTTP/1.1 201 Created
+Date: Thu, 12 Nov 2015 09:42:08 GMT
+Accept-Ranges: bytes
+Location: http://localhost:8080/cas-server/v1/tickets/TGT-1-2TmgdgkfwCT9JfpU743gICXhztvGIyfxzx9x0fiDd9fAVmVTwo-cas
+Server: Restlet-Framework/2.1.0
+Content-Type: text/html;charset=UTF-8
+Content-Length: 437
+BODY：
+<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\"><html><head><title>201 The request has been fulfilled and resulted in a new resource being created</title></head><body><h1>TGT Created</h1><form action="http://localhost:8080/cas-server/v1/tickets/TGT-1-2TmgdgkfwCT9JfpU743gICXhztvGIyfxzx9x0fiDd9fAVmVTwo-cas" method="POST">Service:<input type="text" name="service" value=""><br><input type="submit" value="Submit"></form></body></html>
+
+----------------------------------------------------------------------
+请求ST
+http://localhost:8080/cas-server/v1/tickets/TGT-1-2TmgdgkfwCT9JfpU743gICXhztvGIyfxzx9x0fiDd9fAVmVTwo-cas
+POST：
+service=http://localhost:8080/cas-client/
+Server Response:
+HTTP/1.1 200 OK
+Date: Thu, 12 Nov 2015 09:47:45 GMT
+Accept-Ranges: bytes
+Server: Restlet-Framework/2.1.0
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 29
+BODY：
+ST-1-19izksx3i2MFU54dydPv-cas
+
+获取认证主体及相关属性
+http://localhost:8080/cas-server/serviceValidate
+POST：
+service=http://localhost:8080/cas-client/&ticket=ST-2-OZqsSbMZcuFqLz1f2h4Q-cas
+Server Response:
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+Content-Type: application/xml;charset=UTF-8
+Content-Language: en
+Content-Length: 242
+Date: Thu, 12 Nov 2015 12:01:34 GMT
+
+BODY：
+<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>
+    <cas:authenticationSuccess>
+            <cas:user>t1</cas:user>
+       
+       
+   </cas:authenticationSuccess>
+</cas:serviceResponse>
+----------------------------------------------------------------------
+退出：
+http://localhost:8080/cas-server/v1/tickets/TGT-1-2TmgdgkfwCT9JfpU743gICXhztvGIyfxzx9x0fiDd9fAVmVTwo-cas
+DELETE
+Server Response:
+HTTP/1.1 200 OK
+Date: Thu, 12 Nov 2015 09:54:38 GMT
+Accept-Ranges: bytes
+Server: Restlet-Framework/2.1.0
+Content-Length: 0
