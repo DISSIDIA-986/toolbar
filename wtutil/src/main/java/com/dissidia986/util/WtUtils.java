@@ -3,6 +3,10 @@ package com.dissidia986.util;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -117,20 +121,97 @@ public class WtUtils {
 		}
 		return params;
 	}
-	
+	/**
+	 * 获取线程安全的JSON序列化与反序列化转换器
+	 * @return
+	 */
 	public static ObjectMapper getMapper(){
 		return mapper.get();
 	}
-	
+	/**
+	 * JSON序列化
+	 * @param obj 序列化对象
+	 * @return
+	 * @throws JsonProcessingException
+	 */
 	public static String writeObjectAsString(Object obj) throws JsonProcessingException{
 		return getMapper().writeValueAsString(obj);
 	}
-	
+	/**
+	 * JSON反序列化
+	 * @param content JSON字符串
+	 * @param valueType 结果的对象类型
+	 * @return
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 */
 	public static <T> T readValue(String content, Class<T> valueType) throws JsonParseException, JsonMappingException, IOException{
 		return getMapper().readValue(content, valueType);
 	}
 	
+	/**
+	 * JSON反序列化
+	 * @param json
+	 * @return
+	 * @throws JsonProcessingException
+	 * @throws IOException
+	 */
 	public static JsonNode readTree(String json) throws JsonProcessingException, IOException{
 		return getMapper().readTree(json);
+	}
+	
+	/** 
+	 * 功能：把数组所有元素排序，并按照“参数=参数值”的模式用“&”字符拼接成字符串
+	 * @param params 需要排序并参与字符拼接的参数组
+	 * @return 拼接后字符串 去掉空值与签名参数后的新签名参数组
+	 */
+	public static StringBuilder CreateLinkString(Map params){
+			List keys = new ArrayList(params.keySet());
+			Collections.sort(keys);
+	
+			StringBuilder prestr = new StringBuilder();
+			String key="";
+			String value="";
+			for (int i = 0; i < keys.size(); i++) {
+				key=(String) keys.get(i);
+				value = (String) params.get(key);
+				if("".equals(value) || value == null || 
+						key.equalsIgnoreCase("sign") || key.equalsIgnoreCase("sign_type")){
+					continue;
+				}
+				if (i == keys.size() - 1) {// 拼接时，不包括最后一个&字符
+					prestr.append(key).append("=").append(value);
+				} else {
+					prestr.append(key).append("=").append(value).append("&");
+				}
+				
+			}
+			return prestr.deleteCharAt(prestr.length()-1);
+	}
+	
+	/**
+	 * 将融宝支付POST过来反馈信息转换一下
+	 * @param requestParams 返回参数信息
+	 * @return Map 返回一个只有字符串值的MAP
+	 * */
+	public static Map transformRequestMap(Map requestParams){
+		Map params = null;
+		if(requestParams!=null && requestParams.size()>0){
+			params = new HashMap();
+			String name ="";
+			String[] values =null;
+			for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
+				name= (String) iter.next();
+				values= (String[]) requestParams.get(name);
+				String valueStr = "";
+				for (int i = 0; i < values.length; i++) {
+					valueStr = (i == values.length - 1) ? valueStr + values[i] : valueStr + values[i] + ",";
+				}
+				//乱码解决，这段代码在出现乱码时使用。如果mysign和sign不相等也可以使用这段代码转化
+				params.put(name, valueStr);
+			}
+		}
+		return params;
 	}
 }
