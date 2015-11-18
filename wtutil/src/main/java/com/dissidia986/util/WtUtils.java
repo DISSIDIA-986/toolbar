@@ -25,7 +25,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+/**
+ * 公用函数
+ * @author dissidia986
+ *
+ */
 public class WtUtils {
 	
 	private static final AtomicLong incremental = new AtomicLong(System.currentTimeMillis());
@@ -81,7 +85,12 @@ public class WtUtils {
 		return ip;
 	}
 
-	// TODO 如果字符串超过限制则截取
+	/**
+	 *  TODO 如果字符串超过限制则截取，避免数据库保存时溢出
+	 * @param origin 原始信息
+	 * @param limit 限制长度
+	 * @return 超过则进行截取，否则返回原始信息
+	 */
 	public static String subIfOutOfLimit(String origin, int limit) {
 		String result = origin;
 		if (StringUtils.isNotEmpty(origin) && origin.length() > limit) {
