@@ -33,7 +33,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class WtUtils {
 	
 	private static final AtomicLong incremental = new AtomicLong(System.currentTimeMillis());
-	
+	/**
+	 * 使用ThreadLocal，避免重复初始化
+	 */
 	private static ThreadLocal<ObjectMapper>  mapper =new ThreadLocal<ObjectMapper>(){
 		@Override
 		public ObjectMapper initialValue() {
@@ -42,16 +44,16 @@ public class WtUtils {
 			_mapper.getSerializationConfig().with(DateUtil.getNorm_datetime_format());
 			//TODO 允许JSON串的key不用双引号包括
 			_mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
-			// to allow C/C++ style comments in JSON (non-standard, disabled by default)
+			// to allow C/C++ style comments in JSON (non-standard, disabled by default),允许类C++注释
 			_mapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
-			// to allow (non-standard) unquoted field names in JSON:
+			// to allow (non-standard) unquoted field names in JSON:允许键不带引号
 			_mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
-			// to allow use of apostrophes (single quotes), non standard
+			// to allow use of apostrophes (single quotes), non standard,允许键使用单引号
 			_mapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
 
 			// JsonGenerator.Feature for configuring low-level JSON generation:
 
-			// to force escaping of non-ASCII characters:
+			// to force escaping of non-ASCII characters:对非ASCII码强制转移
 			_mapper.configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, true);
 			return _mapper;
 		}
